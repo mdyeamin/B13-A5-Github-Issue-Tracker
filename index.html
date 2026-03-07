@@ -43,8 +43,8 @@
                     <label class="label px-0 pt-0 pb-2">
                         <span class="label-text text-[14px] font-semibold text-slate-700">Username</span>
                     </label>
-                    <input type="text" placeholder="Enter Username"
-                        class="input input-bordered w-full h-10 bg-white border-slate-200 focus:outline-none focus:border-[#6610f2] rounded-md placeholder:text-slate-400 text-lg shadow-sm" />
+                    <input id="user-filed" type="text" placeholder="Enter Username"
+                        class="input input-bordered w-full bg-white border-slate-200 focus:outline-none focus:border-[#6610f2] rounded-md placeholder:text-slate-400  shadow-sm" />
                     <label class="label px-0 pt-1 pb-0">
                         <span class="text-sm font-semibold text-[#6610f2]">Default: admin</span>
                     </label>
@@ -55,15 +55,15 @@
                     <label class="label px-0 pt-0 pb-2">
                         <span class="label-text text-[14px] font-semibold text-slate-700">Password</span>
                     </label>
-                    <input type="password" placeholder="Enter Password"
-                        class="input input-bordered w-full h-10 bg-white border-slate-200 focus:outline-none focus:border-[#6610f2] rounded-md placeholder:text-slate-400 text-lg shadow-sm" />
+                    <input id="password-filed" type="password" placeholder="Enter Password"
+                        class="input input-bordered w-full bg-white border-slate-200 focus:outline-none focus:border-[#6610f2] rounded-md placeholder:text-slate-400  shadow-sm" />
                     <label class="label px-0 pt-1 pb-0">
                         <span class="text-sm font-semibold text-[#6610f2]">Default: admin123</span>
                     </label>
                 </div>
 
                 <!-- Sign In Button -->
-                <button type="button"
+                <button id="login" type="button"
                     class="btn w-full h-10 bg-[#6610f2] hover:bg-[#520dc2] text-white border-none normal-case text-base font-medium rounded-md shadow-md transition-all">
                     Sign In
                 </button>
@@ -90,7 +90,7 @@
 
 
 
-    <script src="func/func.js"></script>
+    <script src="func/login.js"></script>
 </body>
 
 </html>
