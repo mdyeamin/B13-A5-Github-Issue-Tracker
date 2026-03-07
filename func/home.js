@@ -194,11 +194,26 @@ const showAllIssues = (issues) => {
   });
 };
 
+// for change color  buttons
+const setActiveButton = (activeBtn) => {
+  const buttons = [allBtn, openBtn, closedBtn];
+
+  buttons.forEach((btn) => {
+    btn.classList.remove("bg-blue-700", "text-white");
+    btn.classList.add("bg-white", "text-slate-500");
+  });
+
+  activeBtn.classList.remove("bg-white", "text-slate-500");
+  activeBtn.classList.add("bg-blue-700", "text-white");
+};
+
 allBtn.addEventListener("click", () => {
+  setActiveButton(allBtn);
   showAllIssues(allIssues);
 });
 
 openBtn.addEventListener("click", () => {
+  setActiveButton(openBtn);
   const openIssues = allIssues.filter(
     (issue) => issue.status.toLowerCase() === "open",
   );
@@ -206,9 +221,12 @@ openBtn.addEventListener("click", () => {
   showAllIssues(openIssues);
 });
 
-closedBtn.addEventListener("click",()=>{
-  const closedIssue = allIssues.filter((issue)=>
-    issue.status.toLowerCase() === "closed")
-showAllIssues(closedIssue)
-})
+closedBtn.addEventListener("click", () => {
+  setActiveButton(closedBtn);
+  const closedIssue = allIssues.filter(
+    (issue) => issue.status.toLowerCase() === "closed",
+  );
+  showAllIssues(closedIssue);
+});
+setActiveButton(allBtn);
 fetchIssues();
