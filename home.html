@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,10 +21,46 @@
     <link rel="icon" href="assets/Aperture.png" type="image/x-icon">
     <title>GitHub Issue Tracker</title>
 </head>
+
 <body>
-    <h1>Welcome to the GitHub Issue Tracker</h1>
+    <header class="shadow-sm">
+        <div class="navbar bg-base-100 max-w-[1200px] mx-auto">
+            <div class="flex-1 flex items-center gap-2">
+
+                <img class="w-10 h-10" src="./assets/github-logo.png" alt="">
+                <h4 class="text-2xl hidden md:block font-semibold text-[#24292e]">GitHub Issues Tracker</h4>
+
+            </div>
+            <div class="flex items-center gap-2">
+                <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+
+                <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Issue</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="issues max-w-[1200px] mx-auto">
+        <!-- tag and search  -->
+        <div class="flex items-center justify-between mx-2 my-5">
+            <h4 class="text-xl font-semibold text-[#24292e]">All Issues</h4>
+            <div class="flex items-center gap-2">
+                <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+
+                <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </div>
+        </div>
+<!-- issue buttons -->
+ <div class=" shadow-sm p-5 bg-white">
+    <button class="btn btn-primary">All</button>
+    <button class="btn btn-soft">Open</button>
+    <button class="btn btn-soft">Closed</button>
+ </div>
+
+
+    </section>
 
 
     <script src="func/home.js"></script>
 </body>
+
 </html>
