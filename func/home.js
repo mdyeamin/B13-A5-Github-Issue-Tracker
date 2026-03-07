@@ -4,10 +4,9 @@ const allBtn = document.getElementById("allBtn");
 const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
 const issueContainer = document.getElementById("issue-container");
-const issueLength = document.getElementById("issueLength")
+const issueLength = document.getElementById("issueLength");
 let allIssues = [];
 const getLabelConfig = (label) => {
-    
   const lowerLabel = label.toLowerCase();
 
   if (lowerLabel === "bug") {
@@ -73,9 +72,9 @@ const fetchIssues = async () => {
 
 // show all issues on the ui
 const showAllIssues = (issues) => {
-    issueContainer.innerHTML = ""
-    issueLength.innerText = issues.length
-    
+  issueContainer.innerHTML = "";
+  issueLength.innerText = issues.length;
+
   issues.forEach((issue) => {
     const labels = issue.labels;
 
@@ -172,7 +171,7 @@ const showAllIssues = (issues) => {
                 <div class="p-6 flex items-start justify-between pt-4 pb-8 space-y-2">
                     <div class="text-slate-500 text-sm flex gap-2">
                        
-                        <span>#${issue.id} ${issue.author? "by":""} ${issue.author? issue.author: "N/A"}</span>
+                        <span>#${issue.id} ${issue.author ? "by" : ""} ${issue.author ? issue.author : "N/A"}</span>
                     </div>
                     <div class="text-slate-500 text-sm">
                         ${new Date(issue.createdAt).toLocaleDateString()}
@@ -181,7 +180,7 @@ const showAllIssues = (issues) => {
                 <div class="p-6 flex items-start justify-between pt-4 pb-8 space-y-2">
                     <div class="text-slate-500 text-sm flex gap-2">
                        
-                        <span>assignee: ${issue.assignee? issue.assignee: "N/A"}</span>
+                        <span>assignee: ${issue.assignee ? issue.assignee : "N/A"}</span>
                     </div>
                     <div class="text-slate-500 text-sm">
                        Updated: ${new Date(issue.updatedAt).toLocaleDateString()}
@@ -195,9 +194,21 @@ const showAllIssues = (issues) => {
   });
 };
 
-// const showOpenIssues = (openIssues)=> {
-// // console.log(openIssues);
+allBtn.addEventListener("click", () => {
+  showAllIssues(allIssues);
+});
 
-// }
+openBtn.addEventListener("click", () => {
+  const openIssues = allIssues.filter(
+    (issue) => issue.status.toLowerCase() === "open",
+  );
 
+  showAllIssues(openIssues);
+});
+
+closedBtn.addEventListener("click",()=>{
+  const closedIssue = allIssues.filter((issue)=>
+    issue.status.toLowerCase() === "closed")
+showAllIssues(closedIssue)
+})
 fetchIssues();
