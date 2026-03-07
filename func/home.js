@@ -5,6 +5,7 @@ const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
 const issueContainer = document.getElementById("issue-container");
 const issueLength = document.getElementById("issueLength");
+
 let allIssues = [];
 const getLabelConfig = (label) => {
   const lowerLabel = label.toLowerCase();
@@ -92,6 +93,9 @@ const showAllIssues = (issues) => {
       .join("");
 
     const createDiv = document.createElement("div");
+    createDiv.addEventListener("click", () => {
+      // showIssueModal(issue.id);
+    });
     const priorityColor =
       issue.priority.toLowerCase() === "high"
         ? "#EF4444"
@@ -130,7 +134,7 @@ const showAllIssues = (issues) => {
 
     issue.status.toLowerCase() === "open" ? "#00A96E" : "#A855F7";
     createDiv.innerHTML = `
-            <div class="bg-white rounded-xl h-full shadow-sm border border-gray-100 overflow-hidden relative">
+            <div onclick="loadModalDetail(${issue.id})" class="cursor-pointer bg-white rounded-xl h-full shadow-sm border border-gray-100 overflow-hidden relative">
 
                 
                 <div style="background-color:${statusColor}" class="h-1.5 w-full"></div>
@@ -192,6 +196,33 @@ const showAllIssues = (issues) => {
         `;
     issueContainer.append(createDiv);
   });
+};
+
+// get specific issue by id
+
+const loadModalDetail = async (id) => {
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+  console.log(url);
+  const response = await fetch(url);
+  const data = await response.json();
+  showModalDetail(data.data);
+};
+
+const showModalDetail = (obj) => {
+  console.log(obj);
+  const modalContainer = document.getElementById("modal-container");
+  // const createModalDiv = document.createElement("div");
+  modalContainer.innerHTML = `
+              <h3 class="text-lg font-bold">Hello!</h3>
+                <p class="py-4">Press ESC key or click the button below to close</p>
+                <div class="modal-action">
+                    <form method="dialog">
+
+                        <button class="btn">Close</button>
+                    </form>
+              </div>
+  `;
+  document.getElementById("card_modal").showModal();
 };
 
 // for change color  buttons
