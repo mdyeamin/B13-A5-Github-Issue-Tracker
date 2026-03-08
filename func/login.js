@@ -8,7 +8,7 @@ const login = () => {
     getUserNameField.value = "";
     getPasswordField.value = "";
     
-    if (userNameValue === "admin" && passwordValue === "admin123") {
+    if (userNameValue.toLowerCase() === "admin" && passwordValue.toLowerCase() === "admin123") {
         alert("Login Successfully");
     window.location.href = "home.html";
   } else {
