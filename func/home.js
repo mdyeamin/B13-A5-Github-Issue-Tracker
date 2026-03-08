@@ -15,11 +15,8 @@ const getLabelConfig = (label) => {
       wrapperClass: "bg-red-50 border border-red-200",
       textClass: "text-red-500",
       icon: `
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-500" fill="none"
-          viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+      <i class="fa-solid fa-bug text-red-500 w-4 h-4"></i>
+        
       `,
     };
   }
@@ -29,11 +26,7 @@ const getLabelConfig = (label) => {
       wrapperClass: "bg-orange-50 border border-orange-200",
       textClass: "text-orange-400",
       icon: `
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-orange-400" fill="none"
-          viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" stroke-width="2" />
-          <path stroke-width="2" d="M8 12h8m-4-4v8" />
-        </svg>
+      <i class="fa-solid fa-life-ring text-orange-400 w-4 h-4"></i>
       `,
     };
   }
@@ -43,11 +36,18 @@ const getLabelConfig = (label) => {
       wrapperClass: "bg-green-50 border border-green-200",
       textClass: "text-green-500",
       icon: `
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-500" fill="none"
-          viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 3l1.912 5.813H20l-4.956 3.57L16.912 18 12 14.5 7.088 18l1.868-5.617L4 8.813h6.088L12 3z" />
-        </svg>
+      <i class="fa-solid fa-bahai w-4 h-4 text-green-500"></i>
+       
+      `,
+    };
+  }
+  if (lowerLabel === "good first issue") {
+    return {
+      wrapperClass: "bg-blue-50 border border-green-200",
+      textClass: "text-blue-500",
+      icon: `
+      <i class="fa-regular fa-star w-4 h-4 text-blue-500"></i>
+       
       `,
     };
   }
@@ -56,11 +56,8 @@ const getLabelConfig = (label) => {
     wrapperClass: "bg-gray-50 border border-gray-200",
     textClass: "text-gray-500",
     icon: `
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none"
-        viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M7 7h10M7 12h10M7 17h6" />
-      </svg>
+    <i class="fa-solid fa-bars-staggered w-4 h-4 text-gray-500"></i>
+      
     `,
   };
 };
@@ -202,74 +199,96 @@ const showAllIssues = (issues) => {
 
 const loadModalDetail = async (id) => {
   const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
-  console.log(url);
+
   const response = await fetch(url);
   const data = await response.json();
   showModalDetail(data.data);
 };
 
 const showModalDetail = (obj) => {
-  console.log(obj);
+  const labels = obj.labels;
+  const labelHtml = labels
+    .map((el) => {
+      const { wrapperClass, textClass, icon } = getLabelConfig(el);
+
+      return `
+      <div class="flex items-center gap-1 ${wrapperClass} px-2 py-1 rounded-full">
+        ${icon}
+        <span class="${textClass} text-[9px] tracking-wide uppercase">${el}</span>
+      </div>
+    `;
+    })
+    .join("");
+
+  const priorityColor =
+    obj.priority.toLowerCase() === "high"
+      ? "#EF4444"
+      : obj.priority.toLowerCase() === "medium"
+        ? "#F59E0B"
+        : obj.priority.toLowerCase() === "low"
+          ? "#9CA3AF"
+          : "";
+  const priorityBgColor =
+    obj.priority.toLowerCase() === "high"
+      ? "#EF444410"
+      : obj.priority.toLowerCase() === "medium"
+        ? "#F59E0B10"
+        : obj.priority.toLowerCase() === "low"
+          ? "#9CA3AF10"
+          : "";
+  const statusColor =
+    obj.status.toLowerCase() === "open" ? "#00A96E" : "#A855F7";
+
+
   const modalContainer = document.getElementById("modal-container");
-  // const createModalDiv = document.createElement("div");
+
   modalContainer.innerHTML = `
-             <h1 class="text-3xl font-bold text-[#1a1f36] mb-4">Fix broken image uploads</h1>
+             
+    <!-- Title -->
+    <h2 class="text-xl font-bold text-[#1a1f36] mb-2">${obj.title}</h2>
 
-                <div class="flex flex-wrap items-center gap-3 mb-6 text-slate-500 font-medium">
-                    <span
-                        class="bg-[#00a96e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow-sm">Opened</span>
-                    <span class="text-slate-300 hidden sm:block">•</span>
-                    <span>Opened by Fahim Ahmed</span>
-                    <span class="text-slate-300 hidden sm:block">•</span>
-                    <span>22/02/2026</span>
-                </div>
+    <!-- Status & Date -->
+    <div class="flex items-center gap-2 mb-4 text-xs font-medium text-slate-500">
+        <span style="background-color:${statusColor}" class=" text-white px-2.5 py-0.5 rounded-full">${obj.status.toLowerCase() === "open" ? "Opened": "Closed"}</span>
+        <span>•</span>
+        <span >${obj.status.toLowerCase() === "open" ? "Opened": "Closed"}</span>
+        <span>By ${obj.author ? obj.author : "N/A"}</span>
+        <span>•</span>
+        <span>${new Date(obj.createdAt).toLocaleDateString()}</span>
+    </div>
 
-                <div class="flex gap-3 mb-8">
-                    <div
-                        class="flex items-center gap-1.5 bg-red-50 border border-red-100 px-4 py-1.5 rounded-full text-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span class="font-bold text-[11px] uppercase tracking-wider">Bug</span>
+    <!-- Tags -->
+    <div class="flex gap-3">
+                        
+                       ${labelHtml}
                     </div>
-                    <div
-                        class="flex items-center gap-1.5 bg-orange-50 border border-orange-100 px-4 py-1.5 rounded-full text-orange-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M8 12h8m-4-4v8" />
-                        </svg>
-                        <span class="font-bold text-[11px] uppercase tracking-wider">Help Wanted</span>
-                    </div>
-                </div>
 
-                <p class="text-slate-500 text-lg leading-relaxed mb-10 max-w-[95%]">
-                    The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive
-                    behavior.
-                </p>
+    <!-- Description -->
+    <p class="text-slate-500 text-sm leading-snug mb-6">
+${obj.description}
+    </p>
 
-                <div
-                    class="bg-[#f8faff] rounded-2xl p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border border-slate-50">
-                    <div>
-                        <p class="text-slate-400 text-lg mb-1 font-medium">Assignee:</p>
-                        <p class="text-[#1a1f36] text-xl font-bold">Fahim Ahmed</p>
-                    </div>
-                    <div class="sm:text-right">
-                        <p class="text-slate-400 text-lg mb-2 font-medium">Priority:</p>
-                        <span
-                            class="bg-[#f05252] text-white px-8 py-1.5 rounded-full text-sm font-bold shadow-md">HIGH</span>
-                    </div>
-                </div>
+    <!-- Info Box (Smaller) -->
+    <div class="bg-[#f8faff] rounded-xl p-4 flex justify-between items-center mb-6 border border-slate-50">
+        <div>
+            <p class="text-slate-400 text-xs font-medium">Assignee:</p>
+            <p class="text-[#1a1f36] text-sm font-bold">${obj.assignee ? obj.assignee : "N/A"}</p>
+        </div>
+        <div class="text-right">
+            <p class="text-slate-400 text-xs font-medium mb-1">Priority</p>
+            <span style="color: ${priorityColor}; background-color: ${priorityBgColor}; border-radius: 20px"  class="bg-[#f05252] text-white px-4 py-0.5 rounded-full text-[10px] font-bold">${obj.priority}</span>
+        </div>
+    </div>
 
-                <div class="modal-action mt-0">
-                    <form method="dialog">
-                        <button
-                            class="btn bg-[#6610f2] hover:bg-[#520dc2] text-white border-none normal-case px-10 rounded-xl text-lg font-bold h-14 shadow-lg transition-transform active:scale-95">
-                            Close
-                        </button>
-                    </form>
-                </div>
+    <!-- Close Button (Smaller) -->
+    <div class="modal-action mt-0">
+        <form method="dialog">
+            <button class="btn btn-sm bg-[#6610f2] hover:bg-[#520dc2] text-white border-none normal-case px-6 rounded-lg font-bold">
+                Close
+            </button>
+        </form>
+    </div>
+
   `;
   document.getElementById("card_modal").showModal();
 };
