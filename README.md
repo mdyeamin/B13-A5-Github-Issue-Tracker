@@ -25,4 +25,4 @@ Q4: What is an arrow function?
 
 Q5: What are template literals?
 
-  Ans: 
+  Ans: Template literals are a modern way to write strings in JavaScript. They use backticks instead of quotes and make it easier to add variables and write multi-line text.
