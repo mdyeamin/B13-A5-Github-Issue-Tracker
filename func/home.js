@@ -12,7 +12,7 @@ const getLabelConfig = (label) => {
 
   if (lowerLabel === "bug") {
     return {
-      wrapperClass: "bg-red-50 border border-red-200",
+      wrapperClass: "bg-red-50 border text-sm border-red-200",
       textClass: "text-red-500",
       icon: `
       <i class="fa-solid fa-bug text-red-500 w-4 h-4"></i>
@@ -23,7 +23,7 @@ const getLabelConfig = (label) => {
 
   if (lowerLabel === "help wanted") {
     return {
-      wrapperClass: "bg-orange-50 border border-orange-200",
+      wrapperClass: "bg-orange-50 border text-sm border-orange-200",
       textClass: "text-orange-400",
       icon: `
       <i class="fa-solid fa-life-ring text-orange-400 w-4 h-4"></i>
@@ -33,7 +33,7 @@ const getLabelConfig = (label) => {
 
   if (lowerLabel === "enhancement") {
     return {
-      wrapperClass: "bg-green-50 border border-green-200",
+      wrapperClass: "bg-green-50 border text-sm border-green-200",
       textClass: "text-green-500",
       icon: `
       <i class="fa-solid fa-bahai w-4 h-4 text-green-500"></i>
@@ -43,7 +43,7 @@ const getLabelConfig = (label) => {
   }
   if (lowerLabel === "good first issue") {
     return {
-      wrapperClass: "bg-blue-50 border border-green-200",
+      wrapperClass: "bg-blue-50 border text-sm border-green-200",
       textClass: "text-blue-500",
       icon: `
       <i class="fa-regular fa-star w-4 h-4 text-blue-500"></i>
@@ -53,7 +53,7 @@ const getLabelConfig = (label) => {
   }
 
   return {
-    wrapperClass: "bg-gray-50 border border-gray-200",
+    wrapperClass: "bg-gray-50 border text-sm border-gray-200",
     textClass: "text-gray-500",
     icon: `
     <i class="fa-solid fa-bars-staggered w-4 h-4 text-gray-500"></i>
@@ -83,7 +83,7 @@ const showAllIssues = (issues) => {
         return `
       <div class="flex items-center gap-1 ${wrapperClass} px-2 py-1 rounded-full">
         ${icon}
-        <span class="${textClass} text-[9px] tracking-wide uppercase">${el}</span>
+        <span class="${textClass} text-[10px] tracking-wide uppercase">${el}</span>
       </div>
     `;
       })
@@ -214,7 +214,7 @@ const showModalDetail = (obj) => {
       return `
       <div class="flex items-center gap-1 ${wrapperClass} px-2 py-1 rounded-full">
         ${icon}
-        <span class="${textClass} text-[9px] tracking-wide uppercase">${el}</span>
+        <span class="${textClass} text-[10px] tracking-wide uppercase">${el}</span>
       </div>
     `;
     })
@@ -276,7 +276,7 @@ ${obj.description}
         </div>
         <div class="text-right">
             <p class="text-slate-400 text-xs font-medium mb-1">Priority</p>
-            <span style="color: ${priorityColor}; background-color: ${priorityBgColor}; border-radius: 20px"  class="bg-[#f05252] text-white px-4 py-0.5 rounded-full text-[10px] font-bold">${obj.priority}</span>
+            <span style="color: ${priorityColor}; background-color: ${priorityBgColor}; border-radius: 20px"  class="text-white px-4 py-0.5 rounded-full text-[14px] font-semibold">${obj.priority}</span>
         </div>
     </div>
 
