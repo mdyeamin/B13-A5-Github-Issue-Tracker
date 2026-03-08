@@ -41,12 +41,15 @@
     <!--  -->
     <!-- modal container  -->
     <div>
-        <dialog id="card_modal" class="modal">
-            <div class="modal-box">
-                <div id="modal-container">
+        <dialog id="card_modal" class="modal backdrop-blur-sm">
+            <div id="modal-container" class="modal-box max-w-[800px] p-10 bg-white rounded-3xl shadow-2xl border-none">
 
-                </div>
+                
             </div>
+
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
         </dialog>
     </div>
     <section class="issues max-w-[1200px] mx-auto">

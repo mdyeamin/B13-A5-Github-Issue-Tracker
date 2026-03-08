@@ -213,14 +213,63 @@ const showModalDetail = (obj) => {
   const modalContainer = document.getElementById("modal-container");
   // const createModalDiv = document.createElement("div");
   modalContainer.innerHTML = `
-              <h3 class="text-lg font-bold">Hello!</h3>
-                <p class="py-4">Press ESC key or click the button below to close</p>
-                <div class="modal-action">
-                    <form method="dialog">
+             <h1 class="text-3xl font-bold text-[#1a1f36] mb-4">Fix broken image uploads</h1>
 
-                        <button class="btn">Close</button>
+                <div class="flex flex-wrap items-center gap-3 mb-6 text-slate-500 font-medium">
+                    <span
+                        class="bg-[#00a96e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow-sm">Opened</span>
+                    <span class="text-slate-300 hidden sm:block">•</span>
+                    <span>Opened by Fahim Ahmed</span>
+                    <span class="text-slate-300 hidden sm:block">•</span>
+                    <span>22/02/2026</span>
+                </div>
+
+                <div class="flex gap-3 mb-8">
+                    <div
+                        class="flex items-center gap-1.5 bg-red-50 border border-red-100 px-4 py-1.5 rounded-full text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="font-bold text-[11px] uppercase tracking-wider">Bug</span>
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 bg-orange-50 border border-orange-100 px-4 py-1.5 rounded-full text-orange-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 12h8m-4-4v8" />
+                        </svg>
+                        <span class="font-bold text-[11px] uppercase tracking-wider">Help Wanted</span>
+                    </div>
+                </div>
+
+                <p class="text-slate-500 text-lg leading-relaxed mb-10 max-w-[95%]">
+                    The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive
+                    behavior.
+                </p>
+
+                <div
+                    class="bg-[#f8faff] rounded-2xl p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border border-slate-50">
+                    <div>
+                        <p class="text-slate-400 text-lg mb-1 font-medium">Assignee:</p>
+                        <p class="text-[#1a1f36] text-xl font-bold">Fahim Ahmed</p>
+                    </div>
+                    <div class="sm:text-right">
+                        <p class="text-slate-400 text-lg mb-2 font-medium">Priority:</p>
+                        <span
+                            class="bg-[#f05252] text-white px-8 py-1.5 rounded-full text-sm font-bold shadow-md">HIGH</span>
+                    </div>
+                </div>
+
+                <div class="modal-action mt-0">
+                    <form method="dialog">
+                        <button
+                            class="btn bg-[#6610f2] hover:bg-[#520dc2] text-white border-none normal-case px-10 rounded-xl text-lg font-bold h-14 shadow-lg transition-transform active:scale-95">
+                            Close
+                        </button>
                     </form>
-              </div>
+                </div>
   `;
   document.getElementById("card_modal").showModal();
 };
