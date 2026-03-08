@@ -6,6 +6,8 @@ const closedBtn = document.getElementById("closedBtn");
 const issueContainer = document.getElementById("issue-container");
 const issueLength = document.getElementById("issueLength");
 
+const spinner = document.getElementById("spinner");
+
 let allIssues = [];
 const getLabelConfig = (label) => {
   const lowerLabel = label.toLowerCase();
@@ -43,7 +45,7 @@ const getLabelConfig = (label) => {
   }
   if (lowerLabel === "good first issue") {
     return {
-      wrapperClass: "bg-blue-50 border text-sm border-green-200",
+      wrapperClass: "bg-blue-50 border text-sm border-blue-200",
       textClass: "text-blue-500",
       icon: `
       <i class="fa-regular fa-star w-4 h-4 text-blue-500"></i>
@@ -61,11 +63,23 @@ const getLabelConfig = (label) => {
     `,
   };
 };
+
+const showSpinner = () => {
+  spinner.classList.remove("hidden");
+  issueContainer.classList.add("hidden");
+};
+const hideSpinner = () => {
+  spinner.classList.add("hidden");
+  issueContainer.classList.remove("hidden");
+};
+
 const fetchIssues = async () => {
+  showSpinner();
   const response = await fetch(url);
   const data = await response.json();
   allIssues = data.data;
   showAllIssues(allIssues);
+  hideSpinner();
 };
 
 // show all issues on the ui
@@ -90,9 +104,7 @@ const showAllIssues = (issues) => {
       .join("");
 
     const createDiv = document.createElement("div");
-    createDiv.addEventListener("click", () => {
-      // showIssueModal(issue.id);
-    });
+    createDiv.addEventListener("click", () => {});
     const priorityColor =
       issue.priority.toLowerCase() === "high"
         ? "#EF4444"
@@ -198,11 +210,13 @@ const showAllIssues = (issues) => {
 // get specific issue by id
 
 const loadModalDetail = async (id) => {
+  showSpinner()
   const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
 
   const response = await fetch(url);
   const data = await response.json();
   showModalDetail(data.data);
+  hideSpinner()
 };
 
 const showModalDetail = (obj) => {
@@ -239,7 +253,6 @@ const showModalDetail = (obj) => {
   const statusColor =
     obj.status.toLowerCase() === "open" ? "#00A96E" : "#A855F7";
 
-
   const modalContainer = document.getElementById("modal-container");
 
   modalContainer.innerHTML = `
@@ -249,9 +262,9 @@ const showModalDetail = (obj) => {
 
     <!-- Status & Date -->
     <div class="flex items-center gap-2 mb-4 text-xs font-medium text-slate-500">
-        <span style="background-color:${statusColor}" class=" text-white px-2.5 py-0.5 rounded-full">${obj.status.toLowerCase() === "open" ? "Opened": "Closed"}</span>
+        <span style="background-color:${statusColor}" class=" text-white px-2.5 py-0.5 rounded-full">${obj.status.toLowerCase() === "open" ? "Opened" : "Closed"}</span>
         <span>•</span>
-        <span >${obj.status.toLowerCase() === "open" ? "Opened": "Closed"}</span>
+        <span >${obj.status.toLowerCase() === "open" ? "Opened" : "Closed"}</span>
         <span>By ${obj.author ? obj.author : "N/A"}</span>
         <span>•</span>
         <span>${new Date(obj.createdAt).toLocaleDateString()}</span>
@@ -283,7 +296,7 @@ ${obj.description}
     <!-- Close Button (Smaller) -->
     <div class="modal-action mt-0">
         <form method="dialog">
-            <button class="btn btn-sm bg-[#6610f2] hover:bg-[#520dc2] text-white border-none normal-case px-6 rounded-lg font-bold">
+            <button class="btn btn-sm btn-soft bg-primary text-white border-none normal-case px-6 rounded-lg font-bold">
                 Close
             </button>
         </form>
