@@ -1,12 +1,33 @@
 const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
-
 const allBtn = document.getElementById("allBtn");
 const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
 const issueContainer = document.getElementById("issue-container");
 const issueLength = document.getElementById("issueLength");
-
 const spinner = document.getElementById("spinner");
+// search filed and button
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+
+const searchIssues = async () => {
+  const searchValue = searchInput.value.trim();
+
+
+  const response = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`,
+  );
+  const data = await response.json();
+  showAllIssues(data.data);
+  searchInput.value = "";
+};
+
+searchBtn.addEventListener("click", searchIssues);
+
+searchInput.addEventListener("keypress", (press) => {
+  if (press.key === "Enter") {
+    searchIssues();
+  }
+});
 
 let allIssues = [];
 const getLabelConfig = (label) => {
@@ -87,6 +108,16 @@ const showAllIssues = (issues) => {
   issueContainer.innerHTML = "";
   issueLength.innerText = issues.length;
 
+  if (issues.length === 0) {
+    issueContainer.innerHTML = `
+    <div class="col-span-full flex flex-col items-center justify-center bg-white rounded-xl border border-gray-100 py-12 px-6 text-center">
+      <i class="fa-regular fa-face-frown text-6xl text-slate-300 mb-4"></i>
+      <h3 class="text-xl font-bold text-slate-700 mb-2">No issues found</h3>
+      <p class="text-slate-400 text-sm">Try searching with a different keyword.</p>
+    </div>
+  `;
+    return;
+  }
   issues.forEach((issue) => {
     const labels = issue.labels;
 
@@ -210,13 +241,11 @@ const showAllIssues = (issues) => {
 // get specific issue by id
 
 const loadModalDetail = async (id) => {
-  showSpinner()
   const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
 
   const response = await fetch(url);
   const data = await response.json();
   showModalDetail(data.data);
-  hideSpinner()
 };
 
 const showModalDetail = (obj) => {
